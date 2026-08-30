@@ -1,0 +1,18 @@
+{
+  "problem": "two_station_closed_fleet_inventory",
+  "train": {
+    "fleet_size": 12,
+    "horizon": 8,
+    "adp_seed": 0,
+    "samples_per_action": 96
+  },
+  "evaluation": {
+    "in_distribution": {"fleet_size": 12, "directional_shift": 0.0},
+    "fleet_size_shift": {"fleet_size": 18, "directional_shift": 0.0},
+    "directional_demand_shift": {"fleet_size": 12, "directional_shift": 0.20}
+  },
+  "baselines": ["no_reposition", "demand_balance", "exact_dp"],
+  "primary_metric": "expected_profit_gap_to_exact_dp",
+  "secondary_metrics": ["action_agreement", "value_rmse"],
+  "scope": "The ADP value function is trained only on the base model and transferred unchanged to shifted evaluation models."
+}
