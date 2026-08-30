@@ -15,8 +15,8 @@ class EpisodeResult:
     environment_seed: int
     model_seed: int | None
     total_profit: float
-    lost_demand: int
-    reposition_volume: int
+    lost_demand: float
+    reposition_volume: float
     mean_decision_latency_ms: float
 
 
@@ -65,7 +65,7 @@ def simulate_policy(
         environment_seed=environment_seed,
         model_seed=model_seed,
         total_profit=float(profit),
-        lost_demand=int(lost_total),
-        reposition_volume=int(reposition_total),
+        lost_demand=float(lost_total),
+        reposition_volume=float(reposition_total),
         mean_decision_latency_ms=float(np.mean(latencies)),
     )
