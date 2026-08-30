@@ -1,18 +1,35 @@
 {
   "problem": "two_station_closed_fleet_inventory",
+  "status": "feature_complete",
   "train": {
     "fleet_size": 12,
     "horizon": 8,
-    "adp_seed": 0,
-    "samples_per_action": 96
+    "adp_seeds": [0, 1, 2],
+    "samples_per_action": 64
   },
   "evaluation": {
-    "in_distribution": {"fleet_size": 12, "directional_shift": 0.0},
-    "fleet_size_shift": {"fleet_size": 18, "directional_shift": 0.0},
-    "directional_demand_shift": {"fleet_size": 12, "directional_shift": 0.20}
+    "environment_seeds": [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019],
+    "nominal_final": {"fleet_size": 12, "demand_scale": 1.0, "directional_shift": 0.0},
+    "fleet_size_ood": {"fleet_size": 18, "demand_scale": 1.0, "directional_shift": 0.0},
+    "directional_demand_ood": {"fleet_size": 12, "demand_scale": 1.0, "directional_shift": 0.25},
+    "high_demand_ood": {"fleet_size": 12, "demand_scale": 1.25, "directional_shift": 0.0}
   },
   "baselines": ["no_reposition", "demand_balance", "exact_dp"],
-  "primary_metric": "expected_profit_gap_to_exact_dp",
-  "secondary_metrics": ["action_agreement", "value_rmse"],
-  "scope": "The ADP value function is trained only on the base model and transferred unchanged to shifted evaluation models."
+  "primary_metric": "total_operating_profit",
+  "secondary_metrics": [
+    "expected_profit_gap_to_exact_dp",
+    "lost_demand",
+    "reposition_volume",
+    "action_agreement",
+    "value_rmse",
+    "decision_latency_ms"
+  ],
+  "inference": {
+    "unit": "environment_seed_after_model_seed_aggregation",
+    "paired_references": ["demand_balance", "exact_dp"],
+    "bootstrap_confidence": 0.95,
+    "bootstrap_samples": 4000,
+    "sign_test": "exact_two_sided"
+  },
+  "scope": "ADP value functions are trained only on the base model. Shifted evaluation models are never used to refit the value approximation."
 }
