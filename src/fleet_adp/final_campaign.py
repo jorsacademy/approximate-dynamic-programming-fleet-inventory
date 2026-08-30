@@ -51,8 +51,8 @@ def _aggregate_adp(rows: list[EpisodeResult]) -> list[EpisodeResult]:
                 environment_seed=environment_seed,
                 model_seed=None,
                 total_profit=float(np.mean([r.total_profit for r in selected])),
-                lost_demand=int(round(np.mean([r.lost_demand for r in selected]))),
-                reposition_volume=int(round(np.mean([r.reposition_volume for r in selected]))),
+                lost_demand=float(np.mean([r.lost_demand for r in selected])),
+                reposition_volume=float(np.mean([r.reposition_volume for r in selected])),
                 mean_decision_latency_ms=float(
                     np.mean([r.mean_decision_latency_ms for r in selected])
                 ),
